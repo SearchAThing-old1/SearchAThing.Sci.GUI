@@ -1,0 +1,129 @@
+﻿#region SearchAThing.Sci.GUI, Copyright(C) 2016 Lorenzo Delana, License under MIT
+/*
+* The MIT License(MIT)
+* Copyright(c) 2016 Lorenzo Delana, https://searchathing.com
+*
+* Permission is hereby granted, free of charge, to any person obtaining a
+* copy of this software and associated documentation files (the "Software"),
+* to deal in the Software without restriction, including without limitation
+* the rights to use, copy, modify, merge, publish, distribute, sublicense,
+* and/or sell copies of the Software, and to permit persons to whom the
+* Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+* DEALINGS IN THE SOFTWARE.
+*/
+#endregion
+
+using SearchAThing.Sci;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Globalization;
+
+namespace SearchAThing.Sci.GUI
+{
+
+    public class SciDataGridColumn : DataGridBoundColumn
+    {
+
+        public SciDataGridColumn()
+        {
+
+        }
+
+        void ApplyBinding(DependencyObject depObj, DependencyProperty depProp)
+        {
+            if (Binding != null)
+                BindingOperations.SetBinding(depObj, depProp, Binding);
+            else
+                BindingOperations.ClearBinding(depObj, depProp);
+        }
+
+
+        protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
+        {
+            var stb = new SciTextBox();
+
+            ApplyBinding(stb, SciTextBox.ValueProperty);
+            //var thisBinding = this.Binding as Binding;
+            /*
+            stb.SetBinding(SciTextBox.ValueProperty, new Binding()
+            {
+                Path = thisBinding.Path,
+                Mode = BindingMode.TwoWay,
+                Source = dataItem            
+            });*/
+
+            return stb;
+        }
+
+        protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
+        {
+            var tblk = new TextBlock();
+
+            //ApplyBinding(tblk, TextBlock.TextProperty);
+            var thisBinding = this.Binding as Binding;
+
+            tblk.SetBinding(TextBlock.TextProperty, new Binding()
+            {
+                Path = thisBinding.Path,
+                Source = dataItem,
+                Converter = new MeasureTextConverter()
+            });
+
+            return tblk;
+        }
+
+        protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
+        {
+            var stb = editingElement as SciTextBox;
+
+            if (stb != null)
+            {
+                return stb.Value;
+            }
+
+            return null;
+        }
+
+        protected override bool CommitCellEdit(FrameworkElement editingElement)
+        {
+            return base.CommitCellEdit(editingElement);
+        }
+
+        protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
+        {
+            base.CancelCellEdit(editingElement, uneditedValue);
+        }
+
+    }
+
+    public class Cvt1 : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+}

@@ -23,44 +23,43 @@
 */
 #endregion
 
-using System;
-using System.Windows.Data;
-using System.Globalization;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SearchAThing.Sci.GUI
 {
 
-    public class MeasureTextConverter : IValueConverter
+    public class MeasureVar : DependencyObject
     {
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        #region Measure [dppc]
+        public static readonly DependencyProperty MeasureProperty =
+          DependencyProperty.Register("Measure", typeof(Measure), typeof(MeasureVar), new FrameworkPropertyMetadata(null, OnMeasureChanged));
+
+        public Measure Measure
         {
-            // targetType : string
-
-            if (value == null) return null;
-
-            var measure = (Measure)value;
-
-            return measure.ToString(culture);
+            get
+            {
+                return (Measure)GetValue(MeasureProperty);
+            }
+            set
+            {
+                SetValue(MeasureProperty, value);
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        static void OnMeasureChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            // targetType : Measure
+            var obj = (MeasureVar)source;
+        }
+        #endregion
 
-            if (value == null) return null;
-
-            var text = (string)value;
-
-            var res = Measure.TryParse(text, null, culture);
-
-            if (res == null) return DependencyProperty.UnsetValue;
-
-            return res;
+        public MeasureVar(Measure _measure)
+        {
+            Measure = _measure;
         }
 
-    }    
+    }
 
 }
