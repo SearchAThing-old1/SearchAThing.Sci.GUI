@@ -48,6 +48,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SciDataGrid.cs" />
     <Compile Include="SciDataGridColumn.cs" />
     <Compile Include="MeasureVar.cs" />
     <Compile Include="SciTextBox.cs" />

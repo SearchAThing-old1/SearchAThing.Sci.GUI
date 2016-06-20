@@ -23,51 +23,63 @@
 */
 #endregion
 
-using SearchAThing.Sci;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 using System.Globalization;
+using System.ComponentModel;
 
 namespace SearchAThing.Sci.GUI
 {
 
-    public class SciDataGridColumn : DataGridBoundColumn
+    public class SciDataGridColumn : DataGridColumn, INotifyPropertyChanged
     {
 
-        public SciDataGridColumn()
+        #region INotifyPropertyChanged [propce]       
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void SendPropertyChanged(string propertyName)
         {
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
+        public SciDataGridColumn()
+        {            
+        }        
+         
         void ApplyBinding(DependencyObject depObj, DependencyProperty depProp)
         {
             if (Binding != null)
                 BindingOperations.SetBinding(depObj, depProp, Binding);
             else
                 BindingOperations.ClearBinding(depObj, depProp);
-        }
+        }        
 
+        #region Binding [propc]
+        BindingBase _Binding;
+        public BindingBase Binding
+        {
+            get
+            {
+                return _Binding;
+            }
+            set
+            {
+                if (_Binding != value)
+                {
+                    _Binding = value;
+                    SendPropertyChanged("Binding");
+                }
+            }
+        }
+        #endregion
 
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             var stb = new SciTextBox();
 
-            ApplyBinding(stb, SciTextBox.ValueProperty);
-            //var thisBinding = this.Binding as Binding;
-            /*
-            stb.SetBinding(SciTextBox.ValueProperty, new Binding()
-            {
-                Path = thisBinding.Path,
-                Mode = BindingMode.TwoWay,
-                Source = dataItem            
-            });*/
+            ApplyBinding(stb, SciTextBox.ValueProperty);            
 
             return stb;
         }
@@ -75,8 +87,7 @@ namespace SearchAThing.Sci.GUI
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             var tblk = new TextBlock();
-
-            //ApplyBinding(tblk, TextBlock.TextProperty);
+            
             var thisBinding = this.Binding as Binding;
 
             tblk.SetBinding(TextBlock.TextProperty, new Binding()
@@ -86,7 +97,14 @@ namespace SearchAThing.Sci.GUI
                 Converter = new MeasureTextConverter()
             });
 
+            tblk.KeyDown += Tblk_KeyDown;
+            
             return tblk;
+        }
+
+        private void Tblk_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            
         }
 
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
@@ -95,6 +113,8 @@ namespace SearchAThing.Sci.GUI
 
             if (stb != null)
             {
+                stb.BeginEdit(editingEventArgs);
+
                 return stb.Value;
             }
 

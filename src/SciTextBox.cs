@@ -25,6 +25,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SearchAThing.Sci.GUI
@@ -33,8 +34,25 @@ namespace SearchAThing.Sci.GUI
     public class SciTextBox : TextBox
     {
 
+        static KeyConverter kc = new KeyConverter();
+
         public SciTextBox()
         {
+            TextAlignment = TextAlignment.Right;
+        }
+
+        public void BeginEdit(RoutedEventArgs e)
+        {
+            if (e is KeyEventArgs)
+            {
+                var ke = (KeyEventArgs)e;
+
+                var ch = kc.ConvertToInvariantString(ke.Key);
+
+                Text = ch.ToString();
+
+                Focus();
+            }
         }
 
         #region Value [dppc]
@@ -69,7 +87,15 @@ namespace SearchAThing.Sci.GUI
         {
             base.OnTextChanged(e);
 
-            var measure = Sci.Measure.TryParse(Text, Value.MU.PhysicalQuantity);
+            ParseText(Text);            
+        }
+
+        void ParseText(string text)
+        {
+            var measure = Sci.Measure.TryParse(text, Value.MU.PhysicalQuantity);
+
+            if (measure == null)
+                measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity);
 
             if (measure != null)
             {
