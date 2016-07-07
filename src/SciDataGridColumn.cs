@@ -79,7 +79,7 @@ namespace SearchAThing.Sci.GUI
         {
             var stb = new SciTextBox();
 
-            ApplyBinding(stb, SciTextBox.ValueProperty);            
+            ApplyBinding(stb, SciTextBox.ValueProperty);                                   
 
             return stb;
         }
@@ -114,6 +114,7 @@ namespace SearchAThing.Sci.GUI
             if (stb != null)
             {
                 stb.BeginEdit(editingEventArgs);
+                if (editingEventArgs == null) stb.Focus(); // F2
 
                 return stb.Value;
             }

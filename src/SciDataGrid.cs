@@ -39,7 +39,13 @@ namespace SearchAThing.Sci.GUI
         {
             base.OnPreviewKeyDown(e);
 
-            BeginEdit(e);
+            if (e.Key == Key.F2)
+            {
+                e.Handled = true;
+                BeginEdit(null);
+            }
+            else
+                BeginEdit(e);
         }
     }
 
