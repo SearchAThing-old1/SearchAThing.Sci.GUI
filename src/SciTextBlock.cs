@@ -25,39 +25,21 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace SearchAThing.Sci.GUI
 {
 
-    public class SciTextBox : TextBox
+    public class SciTextBlock : TextBlock
     {
-
-        static KeyConverter kc = new KeyConverter();
-
-        public SciTextBox()
+        
+        public SciTextBlock()
         {
             TextAlignment = TextAlignment.Right;
         }
-
-        public void BeginEdit(RoutedEventArgs e)
-        {
-            if (e is KeyEventArgs)
-            {
-                var ke = (KeyEventArgs)e;
-
-                var ch = kc.ConvertToInvariantString(ke.Key);
-
-                Text = ch.ToString();
-
-                Focus();
-            }
-        }
-
+        
         #region Value [dppc]
         public static readonly DependencyProperty ValueProperty =
-          DependencyProperty.Register("Value", typeof(Measure), typeof(SciTextBox),
+          DependencyProperty.Register("Value", typeof(Measure), typeof(SciTextBlock),
               new FrameworkPropertyMetadata(null, OnValueChanged));
 
         public Measure Value
@@ -74,7 +56,7 @@ namespace SearchAThing.Sci.GUI
 
         static void OnValueChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            var obj = (SciTextBox)source;
+            var obj = (SciTextBlock)source;
 
             if (obj.Value != null)
                 obj.Text = obj.Value.ToString();
@@ -82,48 +64,7 @@ namespace SearchAThing.Sci.GUI
                 obj.Text = "";
         }
         #endregion
-
-        static Brush RedBrush = new SolidColorBrush(Colors.Red);
-
-        protected override void OnTextChanged(TextChangedEventArgs e)
-        {
-            base.OnTextChanged(e);
-
-            ParseText(Text);            
-        }
-
-        void ParseText(string text)
-        {
-            if (Value == null) return;
-
-            var measure = Sci.Measure.TryParse(text, Value.MU.PhysicalQuantity);
-
-            if (measure == null)
-                measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity);
-
-            if (measure != null)
-            {
-                if (!Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value) ||
-                    Foreground == RedBrush)
-                {
-                    var curs = CaretIndex;
-
-                    Value = measure;
-                    CaretIndex = curs;
-
-                    Foreground = (Brush)ForegroundProperty.DefaultMetadata.DefaultValue;
-                }
-            }
-            else
-                Foreground = RedBrush;
-        }
-
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-
-            SelectAll();
-        }
+        
     }
 
 }

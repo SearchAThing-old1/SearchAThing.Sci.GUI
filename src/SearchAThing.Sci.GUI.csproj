@@ -51,6 +51,7 @@
     <Compile Include="SciDataGrid.cs" />
     <Compile Include="SciDataGridColumn.cs" />
     <Compile Include="MeasureVar.cs" />
+    <Compile Include="SciTextBlock.cs" />
     <Compile Include="SciTextBox.cs" />
     <Compile Include="TextMeasureConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

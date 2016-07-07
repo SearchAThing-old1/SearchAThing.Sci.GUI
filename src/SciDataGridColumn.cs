@@ -29,6 +29,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Globalization;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace SearchAThing.Sci.GUI
 {
@@ -45,16 +46,18 @@ namespace SearchAThing.Sci.GUI
         #endregion
 
         public SciDataGridColumn()
-        {            
-        }        
-         
+        {
+        }
+
+        public TextAlignment TextAlignment { get; set; } = TextAlignment.Left;
+
         void ApplyBinding(DependencyObject depObj, DependencyProperty depProp)
         {
             if (Binding != null)
                 BindingOperations.SetBinding(depObj, depProp, Binding);
             else
                 BindingOperations.ClearBinding(depObj, depProp);
-        }        
+        }
 
         #region Binding [propc]
         BindingBase _Binding;
@@ -70,41 +73,40 @@ namespace SearchAThing.Sci.GUI
                 {
                     _Binding = value;
                     SendPropertyChanged("Binding");
+
+                    if (element != null)
+                    {
+                    }
                 }
             }
         }
-        #endregion
+        #endregion        
 
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             var stb = new SciTextBox();
 
-            ApplyBinding(stb, SciTextBox.ValueProperty);                                   
+            ApplyBinding(stb, SciTextBox.ValueProperty);
 
             return stb;
         }
 
+        FrameworkElement element = null;
+
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
-            var tblk = new TextBlock();
-            
-            var thisBinding = this.Binding as Binding;
+            var stb = new SciTextBlock();
 
-            tblk.SetBinding(TextBlock.TextProperty, new Binding()
-            {
-                Path = thisBinding.Path,
-                Source = dataItem,
-                Converter = new MeasureTextConverter()
-            });
+            stb.KeyDown += Tblk_KeyDown;
 
-            tblk.KeyDown += Tblk_KeyDown;
-            
-            return tblk;
+            ApplyBinding(stb, SciTextBlock.ValueProperty);
+
+            return stb;            
         }
 
         private void Tblk_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            
+
         }
 
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
