@@ -73,10 +73,6 @@ namespace SearchAThing.Sci.GUI
                 {
                     _Binding = value;
                     SendPropertyChanged("Binding");
-
-                    if (element != null)
-                    {
-                    }
                 }
             }
         }
@@ -97,16 +93,9 @@ namespace SearchAThing.Sci.GUI
         {
             var stb = new SciTextBlock();
 
-            stb.KeyDown += Tblk_KeyDown;
-
             ApplyBinding(stb, SciTextBlock.ValueProperty);
 
-            return stb;            
-        }
-
-        private void Tblk_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-
+            return stb;
         }
 
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
