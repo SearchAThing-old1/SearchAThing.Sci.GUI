@@ -85,9 +85,7 @@ namespace SearchAThing.Sci.GUI
             ApplyBinding(stb, SciTextBox.ValueProperty);
 
             return stb;
-        }
-
-        FrameworkElement element = null;
+        }        
 
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
