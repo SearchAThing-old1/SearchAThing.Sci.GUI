@@ -23,6 +23,8 @@
 */
 #endregion
 
+using SearchAThing;
+using SearchAThing.Sci;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -102,7 +104,7 @@ namespace SearchAThing.Sci.GUI
                 measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity);
 
             if (measure != null)
-            {
+            {                
                 if (!Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value) ||
                     Foreground == RedBrush)
                 {
