@@ -25,10 +25,12 @@
 
 using SearchAThing;
 using SearchAThing.Sci;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.FormattableString;
 
 namespace SearchAThing.Sci.GUI
 {
@@ -69,7 +71,7 @@ namespace SearchAThing.Sci.GUI
                 return (Measure)GetValue(ValueProperty);
             }
             set
-            {                
+            {
                 SetValue(ValueProperty, value);
             }
         }
@@ -79,7 +81,12 @@ namespace SearchAThing.Sci.GUI
             var obj = (SciTextBox)source;
 
             if (obj.Value != null)
-                obj.Text = obj.Value.ToString();
+            {
+                if (obj.Value.MU.Equals(MUCollection.Adimensional.adim))
+                    obj.Text = obj.Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+                else
+                    obj.Text = obj.Value.ToString();
+            }
             else
                 obj.Text = "";
         }
@@ -91,7 +98,7 @@ namespace SearchAThing.Sci.GUI
         {
             base.OnTextChanged(e);
 
-            ParseText(Text);            
+            ParseText(Text);
         }
 
         void ParseText(string text)
@@ -101,10 +108,15 @@ namespace SearchAThing.Sci.GUI
             var measure = Sci.Measure.TryParse(text, Value.MU.PhysicalQuantity);
 
             if (measure == null)
+            {
+                var tval = text;
+                if (Value.MU != MUCollection.Adimensional.adim)
+                    tval = text + Value.MU.ToString();
                 measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity);
+            }
 
             if (measure != null)
-            {                
+            {
                 if (!Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value) ||
                     Foreground == RedBrush)
                 {
