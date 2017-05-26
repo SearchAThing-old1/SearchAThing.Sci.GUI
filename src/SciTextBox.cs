@@ -83,7 +83,11 @@ namespace SearchAThing.Sci.GUI
             if (obj.Value != null)
             {
                 if (obj.Value.MU.Equals(MUCollection.Adimensional.adim))
-                    obj.Text = obj.Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+                {
+                    var str = obj.Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+
+                    obj.Text = str;
+                }
                 else
                     obj.Text = obj.Value.ToString();
             }
@@ -97,7 +101,7 @@ namespace SearchAThing.Sci.GUI
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
-
+            
             ParseText(Text);
         }
 
@@ -117,13 +121,20 @@ namespace SearchAThing.Sci.GUI
 
             if (measure != null)
             {
-                if (!Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value) ||
-                    Foreground == RedBrush)
+                var changed = !Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value);
+                if (!changed || Foreground == RedBrush)
                 {
                     var curs = CaretIndex;
 
-                    Value = measure;
-                    CaretIndex = curs;
+
+
+                    var len_before = Text.Length;
+                    if (changed)
+                    {
+                        Value = measure;
+                        var len_after = Text.Length;
+                        CaretIndex = curs + (len_after - len_before);
+                    }
 
                     Foreground = (Brush)ForegroundProperty.DefaultMetadata.DefaultValue;
                 }
