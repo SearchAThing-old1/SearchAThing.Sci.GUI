@@ -5,7 +5,7 @@ GUI controls for SearchAThing.Sci
 
 | build |
 |---|
-| [![searchathing MyGet Build Status](https://www.myget.org/BuildSource/Badge/searchathing?identifier=33741e2f-c205-419f-be1f-2a6de1bdc113)](https://www.myget.org/feed/searchathing/package/nuget/SearchAThing.Sci.GUI) |
+| [![searchathing MyGet Build Status](https://www.myget.org/BuildSource/Badge/searchathing-old1?identifier=33741e2f-c205-419f-be1f-2a6de1bdc113)](https://www.myget.org/feed/searchathing-old1/package/nuget/SearchAThing.Sci.GUI) |
 
 ## Installation
 - nuget feeds
