@@ -51,6 +51,11 @@ namespace SearchAThing.Sci.GUI
 
         public TextAlignment TextAlignment { get; set; } = TextAlignment.Left;
 
+        /// <summary>
+        /// display measure unit in textblock
+        /// </summary>
+        public bool DisplayMU { get; set; } = true;
+
         void ApplyBinding(DependencyObject depObj, DependencyProperty depProp)
         {
             if (Binding != null)
@@ -89,7 +94,7 @@ namespace SearchAThing.Sci.GUI
 
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
-            var stb = new SciTextBlock();
+            var stb = new SciTextBlock() { DisplayMU = DisplayMU };
 
             ApplyBinding(stb, SciTextBlock.ValueProperty);
 

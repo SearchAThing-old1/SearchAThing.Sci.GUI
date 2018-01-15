@@ -25,18 +25,21 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using static System.FormattableString;
 
 namespace SearchAThing.Sci.GUI
 {
 
     public class SciTextBlock : TextBlock
     {
-        
+
         public SciTextBlock()
         {
             TextAlignment = TextAlignment.Right;
         }
-        
+
+        public bool DisplayMU { get; set; } = true;
+
         #region Value [dppc]
         public static readonly DependencyProperty ValueProperty =
           DependencyProperty.Register("Value", typeof(Measure), typeof(SciTextBlock),
@@ -49,7 +52,7 @@ namespace SearchAThing.Sci.GUI
                 return (Measure)GetValue(ValueProperty);
             }
             set
-            {                
+            {
                 SetValue(ValueProperty, value);
             }
         }
@@ -59,12 +62,17 @@ namespace SearchAThing.Sci.GUI
             var obj = (SciTextBlock)source;
 
             if (obj.Value != null)
-                obj.Text = obj.Value.ToString();
+            {
+                if (obj.DisplayMU)
+                    obj.Text = obj.Value.ToString();
+                else
+                    obj.Text = Invariant($"{obj.Value.Value}");
+            }
             else
                 obj.Text = "";
         }
         #endregion
-        
+
     }
 
 }
