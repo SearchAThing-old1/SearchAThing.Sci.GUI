@@ -122,7 +122,7 @@ namespace SearchAThing.Sci.GUI
             if (measure != null)
             {
                 var changed = !Value.ConvertTo(measure.MU).Value.EqualsAutoTol(measure.Value);
-                if (!changed || Foreground == RedBrush)
+                if (changed || Foreground == RedBrush)
                 {
                     var curs = CaretIndex;
 
