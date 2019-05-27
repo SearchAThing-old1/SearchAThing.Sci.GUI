@@ -31,7 +31,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Windows.Media;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class SciDataGridColumn : DataGridColumn, INotifyPropertyChanged

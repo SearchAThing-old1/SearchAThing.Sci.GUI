@@ -27,7 +27,7 @@ using System.Windows;
 using System.Windows.Controls;
 using static System.FormattableString;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class SciTextBlock : TextBlock

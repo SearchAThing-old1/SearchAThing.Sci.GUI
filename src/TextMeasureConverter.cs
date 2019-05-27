@@ -29,7 +29,7 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class MeasureTextConverter : IValueConverter

@@ -23,8 +23,8 @@
 */
 #endregion
 
-using SearchAThing;
-using SearchAThing.Sci;
+using OLDSearchAThing;
+using OLDSearchAThing.Sci;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +32,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using static System.FormattableString;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class SciTextBox : TextBox

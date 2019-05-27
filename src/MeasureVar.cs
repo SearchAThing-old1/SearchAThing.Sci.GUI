@@ -27,7 +27,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class MeasureVar : DependencyObject

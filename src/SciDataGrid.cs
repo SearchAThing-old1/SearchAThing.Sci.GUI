@@ -26,7 +26,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SearchAThing.Sci.GUI
+namespace OLDSearchAThing.Sci.GUI
 {
 
     public class SciDataGrid : DataGrid

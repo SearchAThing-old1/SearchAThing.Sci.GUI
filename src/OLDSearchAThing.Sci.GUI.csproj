@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SearchAThing.Sci" Version="1.0.0-CI00020" />
+    <PackageReference Include="OLDSearchAThing.Sci" Version="1.0.0-CI00004" />
   </ItemGroup>
 
   <ItemGroup>
